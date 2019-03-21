@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 
+
 @SpringBootApplication
 public class AccesingDataWithJpaApplication {
 
@@ -22,15 +23,18 @@ public class AccesingDataWithJpaApplication {
 	public CommandLineRunner informacion(CustomerRepository repository) {
 		return (args) -> {
 			repository.save(new Customer("Claudia", "Garcia"));
-			repository.save(new Customer("alvaro", "Lopez"));
+			repository.save(new Customer("Alvaro", "Lopez"));
 			repository.save(new Customer("Beatriz", "Gomez"));
 			repository.save(new Customer("Carlos", "Torres"));
 			repository.save(new Customer("Marta", "Garcia"));
+			repository.save(new Customer("Yon","Morales"));
+            repository.save(new Customer("Alba","Ruiz"));
 
 			log.info("Informacion de los clientes: ");
 			log.info("-------------------------------");
 			for (Customer customer : repository.findAll()) {
 				log.info(customer.toString());
+
 			}
 			log.info("");
 
@@ -56,9 +60,32 @@ public class AccesingDataWithJpaApplication {
 			log.info("");
 
 
+            //Buscar un cliente por su nombre
+            log.info("Todos los cliente que se llamen Marta");
+            log.info("------------------------------------------------");
+
+            repository.findByFirstName("Marta").forEach(Marta ->{
+
+                log.info(Marta.toString());
+
+            });
+
+            // ordenar alfabeticamente los nombres
+            log.info("ordenar");
+            log.info("------------------------------------------------");
 
 
-		};
+            for (Customer customer : repository.findAllByOrderByFirstNameAsc()) {
+                log.info(customer.toString());
+
+            }
+
+            log.info("");
+
+
+
+
+        };
 	}
 
 
